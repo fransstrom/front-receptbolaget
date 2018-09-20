@@ -1,38 +1,38 @@
 import React, { Component } from 'react';
 import './App.css';
+import SearchBar from './Components/searchbar';
+
+import RecipeList from './Components/recipeList';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      items: [],
-      isLoaded: false
-    };
+
+    this.state = { recipes: [] };
+
+    this.recipeSearch('');
+
   }
 
-  componentDidMount() {
-    fetch('http://localhost:3000/allaingreds/räkor')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          isLoaded: true,
-          items: json
-        });
-      });
+  recipeSearch(term){
+    fetch(`http://localhost:3000/allarecept/${term}`)
+    .then(response => response.json())
+    .then(recipes => {
+      this.setState({ recipes });
+      console.log(recipes);
+    });
   }
+
 
   render() {
-    var { isLoaded, items } = this.state;
-    if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return <div className="App">
-      <ul>
-        {items.map(item=>(<li key={item.Namn}>{item.Namn}</li>))}
-
-      </ul>
-      </div>;
-    }
+    return (
+      <div className="App">
+      <h1>ReceptBolaget</h1>
+        <SearchBar />
+        <RecipeList recipes={this.state.recipes} />
+        
+      </div>
+    );
   }
 }
 
