@@ -4,10 +4,10 @@ import SearchBar from './searchbar';
 
 import RecipeList from './recipeList';
 import { Row, Button, Icon } from 'react-materialize';
+
 class Main extends Component {
   constructor(props) {
     super(props);
-
     this.state = { recipes: [] };
     this.recipeSearch('');
   }
