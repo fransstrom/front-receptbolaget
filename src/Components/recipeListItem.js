@@ -7,7 +7,7 @@ const RecipeListItem = ({ recipe }) => {
         <Card
           horizontal
           header={<CardTitle image={recipe.IMGUrl} />}
-          actions={[<a href="#">This is a link</a>]}>
+          >
           <h4>{recipe.Name}</h4>
           <p>{recipe.Description}</p>
         </Card>
