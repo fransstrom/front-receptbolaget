@@ -3,6 +3,7 @@ import '../App.css';
 import SearchBar from './searchbar';
 
 import RecipeList from './recipeList';
+import _ from 'lodash';
 import { Row, Button, Icon } from 'react-materialize';
 
 class Main extends Component {
@@ -22,14 +23,13 @@ class Main extends Component {
   }
 
   render() {
+    const recipeSearch=_.debounce((term)=>{this.recipeSearch(term) },300);
     return (
       <div className="App">
         <h1>ReceptBolaget</h1>
         <Button waves='purple' className="red" node='a' href="/admin">Admins only<Icon right>do_not_disturb_alt</Icon></Button>
-        <SearchBar
-          onSearchTermChange={term => {
-            this.recipeSearch(term);
-          }}
+        <SearchBar placeholder='Sök recept'
+          onSearchTermChange={recipeSearch}
         />
         <Row>
           <RecipeList recipes={this.state.recipes} text={this.text} />

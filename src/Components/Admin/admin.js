@@ -1,51 +1,27 @@
 import React, { Component } from 'react';
-import { Row, Input, Icon, Button, Col, Collection, Badge } from 'react-materialize';
-import CollectionItem from 'react-materialize/lib/CollectionItem';
+import { Row, Input, Icon, Button, Col, Collection } from 'react-materialize';
+import IngredientList from './ingredientList';
+import _ from 'lodash';
+import SearchBar from '../searchbar';
 export default class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = { ingredients: [] };
 
-
-    this.term='';
+    this.term = '';
     this.ingredientSearch(this.term);
-
-
-
- 
-  }
-  
-   resolveAfter2Seconds(evt) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        this.ingredientSearch(evt)
-      }, 2000);
-    });
   }
 
-
-   ingredientSearch(term) {
-
-     fetch(`http://localhost:3000/allaingreds/${term}`)
+  ingredientSearch(term) {
+    fetch(`http://localhost:3000/allaingreds/${term}`)
       .then(response => response.json())
       .then(ingredients => {
         this.setState({ ingredients });
       });
-
   }
 
-
   render() {
-    let i=1;
-    const ingredientItem = this.state.ingredients.map(ingredient => {
-      return (
-        <CollectionItem key={ingredient._id} ingredient={ingredient.Namn}>
-          {ingredient.Namn}
-          <Badge>{i++}</Badge>
-        </CollectionItem>
-      );
-    });
-
+    const ingredientSearch=_.debounce((term)=>{this.ingredientSearch(term) },300);
     console.log(this.state.ingredients);
     return (
       <div>
@@ -54,16 +30,9 @@ export default class Admin extends Component {
           <Col s={6} m={6} l={6}>
             <Input s={12} m={12} l={12} label="Namn för receptet" />
             <Input s={12} m={12} l={12} type="textarea" label="Beskrivning" />
-            <Input
-              s={12}
-              m={12}
-              l={12}
-              onChange={evt => {  
-                // this.term=evt.target.value;
-                // this.ingredientSearch(evt.target.value);
-                this.resolveAfter2Seconds(evt.target.value); 
-              }}
-              label="Sök recept att lägga till"
+            <SearchBar
+              placeholder="Sök ingrediens"
+              onSearchTermChange={ingredientSearch}
             />
             <Input type="text" label="Bild-länk" s={12} m={12} l={12}>
               <Icon>insert_link</Icon>
@@ -75,14 +44,12 @@ export default class Admin extends Component {
             </Button>
           </Col>
           <Col s={6} m={6} l={6}>
-            <Collection>{ingredientItem}</Collection>
+            <Collection>
+              <IngredientList ingredients={this.state.ingredients} />
+            </Collection>
           </Col>
         </Row>
       </div>
-      
     );
-
- 
   }
-  
 }
