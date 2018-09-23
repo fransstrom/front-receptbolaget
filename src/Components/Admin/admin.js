@@ -34,10 +34,10 @@ export default class Admin extends Component {
               placeholder="Sök ingrediens"
               onSearchTermChange={ingredientSearch}
             />
+            <Input type="text" label="Instruktioner" s={12} m={12} l={12} />
             <Input type="text" label="Bild-länk" s={12} m={12} l={12}>
               <Icon>insert_link</Icon>
             </Input>
-            <Input type="text" label="Instruktioner" s={12} m={12} l={12} />
             <Button waves="red" className="blue" node="a" href="/någonapohär">
               Admins only
               <Icon right>fastfood</Icon>

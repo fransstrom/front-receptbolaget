@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
-
+import {Input} from 'react-materialize';
 class SearchBar extends Component {
   constructor(props) {
     super(props);
 
     this.state = { term: '' };
-    this.placeholder='';
   }
 
   render() {
     return (
-      <div>
-        <input
-          placeholder={this.props.placeholder}
+     
+        <Input  label={this.props.placeholder}
           value={this.state.term}
-          onChange={event => this.onInputChange(event.target.value)}
-        />
-        <br /> Value of theinput : {this.state.term}
-      </div>
+          onChange={event => this.onInputChange(event.target.value)}  s={12} m={12} l={12}></Input>
+       
+   
     );
   }
 
