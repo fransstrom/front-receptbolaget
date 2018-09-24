@@ -10,7 +10,8 @@ const RecipeListItem = ({ recipe }) => {
           >
           <h4>{recipe.Name}</h4>
           <p>{recipe.Description}</p>
-          {console.log(recipe.Ingredients)}
+          <p></p>
+      
         </Card>
       </Col>
     </div>
