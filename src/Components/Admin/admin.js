@@ -10,6 +10,8 @@ export default class Admin extends Component {
 
     this.term = '';
     this.ingredientSearch(this.term);
+
+    
   }
 
   ingredientSearch(term) {
@@ -19,6 +21,7 @@ export default class Admin extends Component {
         this.setState({ ingredients });
       });
   }
+
 
   render() {
     const ingredientSearch=_.debounce((term)=>{this.ingredientSearch(term) },300);
