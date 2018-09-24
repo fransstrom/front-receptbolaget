@@ -1,9 +1,6 @@
 import React from 'react';
 import IngredientListItem from './ingredientListItem';
-import {
-
-  Table
-} from 'react-materialize';
+import { Table } from 'react-materialize';
 const IngredientList = props => {
   const ingredientItem = props.ingredients.map(ingredient => {
     return <IngredientListItem key={ingredient._id} ingredient={ingredient} />;
