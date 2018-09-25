@@ -20,6 +20,7 @@ export default class Admin extends Component {
       Instruktioner: '',
       IMGUrl: ''
     };
+    
   }
 
   ingredientSearch(term) {
@@ -48,13 +49,7 @@ export default class Admin extends Component {
         console.log(body, 'body');
       })
       .catch(e => console.log(e, 'error'));
-    this.newRecipe = {
-      Name: '',
-      Description: '',
-      Ingredients: this.addedIngred,
-      Instruktioner: '',
-      IMGUrl: ''
-    };
+      this.refs.form.reset();
   }
 
   render() {
@@ -65,29 +60,33 @@ export default class Admin extends Component {
     return (
       <div>
         <Row>
-          <h4>Du som admin kan lägga till recept</h4>
+          <h4 className="header">Du som admin kan lägga till recept</h4>
           <Col s={6} m={6} l={6}>
+          <form ref="form" onSubmit={(e) => {
+                e.preventDefault();
+                this.postRecipe(this.newRecipe);
+                window.Materialize.toast('Tack för du delar med dig av din recept!', 1000)
+                console.log(this.newRecipe, 'KLICK');
+              }}>
             <Input
               onChange={e => {
                 this.newRecipe.Name = e.target.value;
               }}
-              name="name"
               s={12}
               m={12}
               l={12}
               label="Namn för receptet"
-            />
+            ><Icon>import_contacts</Icon></Input> 
             <Input
               onChange={e => {
                 this.newRecipe.Description = e.target.value;
               }}
-              name="description"
               s={12}
               m={12}
               l={12}
               type="textarea"
               label="Beskrivning"
-            />
+            ><Icon>description</Icon></Input> 
             <SearchBar
               placeholder="Sök ingrediens"
               onSearchTermChange={ingredientSearch}
@@ -96,18 +95,16 @@ export default class Admin extends Component {
               onChange={e => {
                 this.newRecipe.Instruktioner = e.target.value;
               }}
-              name="instruction"
-              type="text"
+              type="textarea"
               label="Instruktioner"
               s={12}
               m={12}
               l={12}
-            />
+            ><Icon>more_vert</Icon></Input> 
             <Input
               onChange={e => {
                 this.newRecipe.IMGUrl = e.target.value;
               }}
-              name="imgurl"
               type="text"
               label="Bild-länk"
               s={12}
@@ -118,16 +115,13 @@ export default class Admin extends Component {
             <Button
               waves="red"
               className="blue"
-              onClick={() => {
-                this.postRecipe(this.newRecipe);
-                console.log(this.newRecipe, 'KLICK');
-              }}>
-              Admins only
-              <Icon right>fastfood</Icon>
+              type="submit"
+            >Skicka<Icon right>send</Icon>
             </Button>
+            </form>
           </Col>
           <Col s={6} m={6} l={6}>
-            <Collection>
+            <Collection className="ingredientsAdd">
               <IngredientList ingredients={this.state.ingredients} />
             </Collection>
           </Col>

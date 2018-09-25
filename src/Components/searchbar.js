@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Input} from 'react-materialize';
+import { Input, Icon } from 'react-materialize';
 class SearchBar extends Component {
   constructor(props) {
     super(props);
@@ -9,12 +9,16 @@ class SearchBar extends Component {
 
   render() {
     return (
-     
-        <Input  label={this.props.placeholder}
-          value={this.state.term}
-          onChange={event => this.onInputChange(event.target.value)}  s={12} m={12} l={12}></Input>
-       
-   
+      <Input
+      type='text'
+        label={this.props.placeholder}
+        value={this.state.term}
+        onChange={event => this.onInputChange(event.target.value)}
+        s={12}
+        m={12}
+        l={12}>
+        <Icon>fastfood</Icon>
+      </Input>
     );
   }
 

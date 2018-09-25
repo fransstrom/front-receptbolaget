@@ -10,7 +10,7 @@ const IngredientList = props => {
     <Table className="col-md-4 list-group">
       <thead>
         <tr>
-          <th data-field="id">Ingrediens namn</th>
+          <th data-field="id">Ingrediens</th>
           <th data-field="name">Mängd(g)</th>
           <th data-field="price">Lägg till</th>
         </tr>
