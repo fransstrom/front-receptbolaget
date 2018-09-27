@@ -20,7 +20,6 @@ export default class Admin extends Component {
       Instruktioner: '',
       IMGUrl: ''
     };
-    
   }
 
   ingredientSearch(term) {
@@ -28,6 +27,7 @@ export default class Admin extends Component {
       .then(response => response.json())
       .then(ingredients => {
         this.setState({ ingredients: ingredients });
+        console.log(ingredients);
       });
   }
 
@@ -49,7 +49,7 @@ export default class Admin extends Component {
         console.log(body, 'body');
       })
       .catch(e => console.log(e, 'error'));
-      this.refs.form.reset();
+    this.refs.form.reset();
   }
 
   render() {
@@ -62,62 +62,70 @@ export default class Admin extends Component {
         <Row>
           <h4 className="header">Du som admin kan lägga till recept</h4>
           <Col s={6} m={6} l={6}>
-          <form ref="form" onSubmit={(e) => {
+            <form
+              ref="form"
+              onSubmit={e => {
                 e.preventDefault();
                 this.postRecipe(this.newRecipe);
-                window.Materialize.toast('Tack för du delar med dig av din recept!', 1000)
+                window.Materialize.toast(
+                  'Tack för du delar med dig av din recept!',
+                  1000
+                );
                 console.log(this.newRecipe, 'KLICK');
               }}>
-            <Input
-              onChange={e => {
-                this.newRecipe.Name = e.target.value;
-              }}
-              s={12}
-              m={12}
-              l={12}
-              label="Namn för receptet"
-            ><Icon>import_contacts</Icon></Input> 
-            <Input
-              onChange={e => {
-                this.newRecipe.Description = e.target.value;
-              }}
-              s={12}
-              m={12}
-              l={12}
-              type="textarea"
-              label="Beskrivning"
-            ><Icon>description</Icon></Input> 
-            <SearchBar
-              placeholder="Sök ingrediens"
-              onSearchTermChange={ingredientSearch}
-            />
-            <Input
-              onChange={e => {
-                this.newRecipe.Instruktioner = e.target.value;
-              }}
-              type="textarea"
-              label="Instruktioner"
-              s={12}
-              m={12}
-              l={12}
-            ><Icon>more_vert</Icon></Input> 
-            <Input
-              onChange={e => {
-                this.newRecipe.IMGUrl = e.target.value;
-              }}
-              type="text"
-              label="Bild-länk"
-              s={12}
-              m={12}
-              l={12}>
-              <Icon>insert_link</Icon>
-            </Input>
-            <Button
-              waves="red"
-              className="blue"
-              type="submit"
-            >Skicka<Icon right>send</Icon>
-            </Button>
+              <Input
+                id="name"
+                onChange={e => {
+                  this.newRecipe.Name = e.target.value;
+                }}
+                s={12}
+                m={12}
+                l={12}
+                label="Namn för receptet">
+                <Icon>import_contacts</Icon>
+              </Input>
+              <Input
+                onChange={e => {
+                  this.newRecipe.Description = e.target.value;
+                }}
+                s={12}
+                m={12}
+                l={12}
+                type="textarea"
+                label="Beskrivning">
+                <Icon>description</Icon>
+              </Input>
+              <SearchBar
+                placeholder="Sök ingrediens"
+                onSearchTermChange={ingredientSearch}
+              />
+              <Input
+                onChange={e => {
+                  this.newRecipe.Instruktioner = e.target.value;
+                }}
+                type="textarea"
+                label="Instruktioner"
+                s={12}
+                m={12}
+                l={12}>
+                <Icon>more_vert</Icon>
+              </Input>
+              <Input
+                onChange={e => {
+                  this.newRecipe.IMGUrl = e.target.value;
+                }}
+                type="text"
+                label="Bild-länk"
+                icon="search"
+                s={12}
+                m={12}
+                l={12}>
+                <Icon>insert_link</Icon>
+              </Input>
+              <Button waves="red" className="blue" type="submit">
+                Skicka
+                <Icon right>send</Icon>
+              </Button>
             </form>
           </Col>
           <Col s={6} m={6} l={6}>

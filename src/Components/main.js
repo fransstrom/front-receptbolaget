@@ -18,7 +18,6 @@ class Main extends Component {
       .then(response => response.json())
       .then(recipes => {
         this.setState({ recipes });
-        console.log(recipes);
       });
   }
 

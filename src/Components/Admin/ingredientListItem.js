@@ -5,8 +5,7 @@ import {
   Input,
   Badge,
   CollectionItem,
-  Collection,
-  
+  Collection
 } from 'react-materialize';
 
 export let ingredList = [];
@@ -26,13 +25,14 @@ const IngredientListItem = ({ ingredient, amount }) => {
       </td>
       <td>
         <Button
-        floating className='blue addIng' waves='green' icon='add'
-          
+          floating
+          className="blue addIng"
+          waves="green"
+          icon="add"
           onClick={function() {
             added();
-          }}>
-         
-        </Button>
+          }}
+        />
       </td>
     </tr>
   );
@@ -40,13 +40,13 @@ const IngredientListItem = ({ ingredient, amount }) => {
   function added() {
     console.log(ingredList);
     ingredList.push({ ingredient, amount });
-   let i=0;
+    let i = 0;
     let ingredsAdded = ingredList.map(ingredient => {
       i++;
       return (
-        
         <CollectionItem key={ingredient.ingredient._id + 'listan'}>
-          {i +'. '}{ingredient.ingredient.Namn}{' '}
+          {i + '. '}
+          {ingredient.ingredient.Namn}{' '}
           <Badge>
             {ingredient.amount}
             gram

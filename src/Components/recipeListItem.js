@@ -1,6 +1,9 @@
 import React from 'react';
 import { Card, Col, CardTitle } from 'react-materialize';
+import MyModal from './Modal';
 const RecipeListItem = ({ recipe }) => {
+
+
   return (
     <div>
       <Col m={12} s={12} l={12}>
@@ -8,6 +11,7 @@ const RecipeListItem = ({ recipe }) => {
           <h4>{recipe.Name}</h4>
           <p>{recipe.Description}</p>
           <p />
+          <MyModal recipe={recipe}></MyModal>
         </Card>
       </Col>
     </div>
