@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Col, CardTitle } from 'react-materialize';
-import MyModal from './Modal';
+import MyModal from './modal';
 const RecipeListItem = ({ recipe }) => {
 
 

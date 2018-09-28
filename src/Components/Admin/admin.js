@@ -8,19 +8,28 @@ import { ingredList } from './ingredientListItem';
 export default class Admin extends Component {
   constructor(props) {
     super(props);
-    this.state = { ingredients: [] };
-    this.addedIngred = ingredList;
+    this.state = {
+      ingredients: [],
+      newRecipe: {
+        Name: '',
+        Description: '',
+        Ingredients: ingredList,
+        Instruktioner: '',
+        IMGUrl: ''
+      }
+    };
+
+
     this.term = '';
     this.ingredientSearch(this.term);
 
-    this.newRecipe = {
-      Name: '',
-      Description: '',
-      Ingredients: this.addedIngred,
-      Instruktioner: '',
-      IMGUrl: ''
-    };
+    this.onNameChange = this.onNameChange.bind(this);
+    this.onDescriptionChange = this.onDescriptionChange.bind(this);
+    this.onInstructionChange = this.onInstructionChange.bind(this);
+    this.onIMGUrlChange = this.onIMGUrlChange.bind(this);
   }
+
+
 
   ingredientSearch(term) {
     fetch(`http://localhost:3000/allaingreds/${term}`)
@@ -31,8 +40,8 @@ export default class Admin extends Component {
       });
   }
 
-  postRecipe(newRecipe) {
-    let recipe = JSON.stringify(newRecipe);
+  postRecipe() {
+    let recipe = JSON.stringify(this.state.newRecipe);
     fetch('http://localhost:3000/saverecipe/', {
       method: 'POST',
       headers: {
@@ -49,7 +58,43 @@ export default class Admin extends Component {
         console.log(body, 'body');
       })
       .catch(e => console.log(e, 'error'));
-    this.refs.form.reset();
+    this.setState({
+      newRecipe: {
+        Name: '',
+        Description: '',
+        Ingredients: [],
+        Instruktioner: '',
+        IMGUrl: ''
+      }
+    });
+    
+  }
+
+  onNameChange(event) {
+    let newRecipe = { ...this.state.newRecipe };
+    newRecipe.Name = event.target.value;
+    this.setState({ newRecipe });
+    console.log(this.state.newRecipe, 'staten');
+  }
+
+  onDescriptionChange(event) {
+    let newRecipe = { ...this.state.newRecipe };
+    newRecipe.Description = event.target.value;
+    this.setState({ newRecipe });
+    console.log(this.state.newRecipe, 'staten');
+  }
+
+  onInstructionChange(event) {
+    let newRecipe = { ...this.state.newRecipe };
+    newRecipe.Instruktioner = event.target.value;
+    this.setState({ newRecipe });
+    console.log(this.state.newRecipe, 'staten');
+  }
+  onIMGUrlChange(event) {
+    let newRecipe = { ...this.state.newRecipe };
+    newRecipe.IMGUrl = event.target.value;
+    this.setState({ newRecipe });
+    console.log(this.state.newRecipe, 'staten');
   }
 
   render() {
@@ -74,10 +119,11 @@ export default class Admin extends Component {
                 console.log(this.newRecipe, 'KLICK');
               }}>
               <Input
+                value={this.state.newRecipe.Name}
                 id="name"
-                onChange={e => {
-                  this.newRecipe.Name = e.target.value;
-                }}
+                name="Name"
+                cat="newRecipe"
+                onChange={this.onNameChange}
                 s={12}
                 m={12}
                 l={12}
@@ -85,9 +131,9 @@ export default class Admin extends Component {
                 <Icon>import_contacts</Icon>
               </Input>
               <Input
-                onChange={e => {
-                  this.newRecipe.Description = e.target.value;
-                }}
+                value={this.state.newRecipe.Description}
+                name="description"
+                onChange={this.onDescriptionChange}
                 s={12}
                 m={12}
                 l={12}
@@ -100,9 +146,9 @@ export default class Admin extends Component {
                 onSearchTermChange={ingredientSearch}
               />
               <Input
-                onChange={e => {
-                  this.newRecipe.Instruktioner = e.target.value;
-                }}
+                value={this.state.newRecipe.Instruktioner}
+                name="Instruktioner"
+                onChange={this.onInstructionChange}
                 type="textarea"
                 label="Instruktioner"
                 s={12}
@@ -111,9 +157,8 @@ export default class Admin extends Component {
                 <Icon>more_vert</Icon>
               </Input>
               <Input
-                onChange={e => {
-                  this.newRecipe.IMGUrl = e.target.value;
-                }}
+                value={this.state.newRecipe.IMGUrl}
+                onChange={this.onIMGUrlChange}
                 type="text"
                 label="Bild-länk"
                 icon="search"

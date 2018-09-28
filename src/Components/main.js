@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
 import SearchBar from './searchbar';
-
 import RecipeList from './recipeList';
 import _ from 'lodash';
 import { Row, Button, Icon } from 'react-materialize';

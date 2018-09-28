@@ -55,6 +55,7 @@ const MyModal = ({ recipe }) => {
       <ol>{recipeDetails}</ol>
       <h5>Instruktioner</h5>
       <p>{instructions}</p>
+      <h5>Näringsvärden</h5>
       <p>
         {getCal()}
         kcal
