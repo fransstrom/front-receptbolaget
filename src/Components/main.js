@@ -25,16 +25,15 @@ class Main extends Component {
     fetch(`http://localhost:3000/allarecept/${term}`)
       .then(response => response.json())
       .then(recipes => {
-        if (this.filterCat.length > 0) {
-          recipes = recipes.filter(e => {
-            let categories = e.category.sort();
-            let filter = this.filterCat.sort();
-            console.log(e.category, 'kategori från object');
-            console.log(filter, 'filtrert');
-            return _.isEqual(categories, filter);
-          });
-        }
-
+        if(this.filterCat.length>0){
+        recipes = recipes.filter(e => {
+          let categories=e.category.sort();
+          let filter=this.filterCat.sort();
+          let found = categories.some(r=> filter.indexOf(r) >= 0)
+          return found//_.isEqual(categories, filter);
+        });
+      }
+     
         this.setState({ recipes });
       });
   }
@@ -70,6 +69,7 @@ class Main extends Component {
                 }
               }
               this.recipeSearch(this.term);
+              
             }}
           />
           <Input
@@ -81,7 +81,7 @@ class Main extends Component {
             onChange={e => {
               if (e.target.checked) {
                 this.filterCat.push(e.target.value);
-              } else {
+              }else {
                 var index = this.filterCat.indexOf('vegitarisk');
                 if (index > -1) {
                   this.filterCat.splice(index, 1);
