@@ -4,6 +4,7 @@ import IngredientList from './ingredientList';
 import _ from 'lodash';
 import SearchBar from '../searchbar';
 import { ingredList } from './ingredientListItem';
+//const $ = window.$;
 
 export default class Admin extends Component {
   constructor(props) {
@@ -15,10 +16,17 @@ export default class Admin extends Component {
         Description: '',
         Ingredients: ingredList,
         Instruktioner: '',
-        IMGUrl: ''
+        IMGUrl: '',
+        category: []
       }
     };
 
+    this.checkBoxes = {
+      vegan: false,
+      vegitarisk: false,
+      glutenfri: false,
+      laktosfri: false
+    };
 
     this.term = '';
     this.ingredientSearch(this.term);
@@ -29,14 +37,21 @@ export default class Admin extends Component {
     this.onIMGUrlChange = this.onIMGUrlChange.bind(this);
   }
 
+  //Använda för att skapa ingredlist i newrecipe istället för ingredlistitem functionen?
+  // componentDidMount(){
+  //   $(document).ready(function(){
+  //     $("body").on("click",'.add_btn',function(event){
+  //       console.log("helloo");
+  //     }.bind(this));
 
+  //   });
+  // }
 
   ingredientSearch(term) {
     fetch(`http://localhost:3000/allaingreds/${term}`)
       .then(response => response.json())
       .then(ingredients => {
         this.setState({ ingredients: ingredients });
-        console.log(ingredients);
       });
   }
 
@@ -67,34 +82,29 @@ export default class Admin extends Component {
         IMGUrl: ''
       }
     });
-    
   }
 
   onNameChange(event) {
     let newRecipe = { ...this.state.newRecipe };
     newRecipe.Name = event.target.value;
     this.setState({ newRecipe });
-    console.log(this.state.newRecipe, 'staten');
   }
 
   onDescriptionChange(event) {
     let newRecipe = { ...this.state.newRecipe };
     newRecipe.Description = event.target.value;
     this.setState({ newRecipe });
-    console.log(this.state.newRecipe, 'staten');
   }
 
   onInstructionChange(event) {
     let newRecipe = { ...this.state.newRecipe };
     newRecipe.Instruktioner = event.target.value;
     this.setState({ newRecipe });
-    console.log(this.state.newRecipe, 'staten');
   }
   onIMGUrlChange(event) {
     let newRecipe = { ...this.state.newRecipe };
     newRecipe.IMGUrl = event.target.value;
     this.setState({ newRecipe });
-    console.log(this.state.newRecipe, 'staten');
   }
 
   render() {
@@ -167,6 +177,68 @@ export default class Admin extends Component {
                 l={12}>
                 <Icon>insert_link</Icon>
               </Input>
+              <Row>
+                <Input
+                  name="vegan"
+                  type="checkbox"
+                  value="vegansk"
+                  label="Vegansk"
+                  checked={this.checkBoxes.vegan}
+                  onChange={e => {
+                    if (e.target.checked) {
+                      this.state.newRecipe.category.push(e.target.name);
+                    } else {
+                      this.state.newRecipe.category.pop(e.target.name);
+                    }
+                    console.log(this.state.newRecipe);
+                  }}
+                />
+                <Input
+                  name="vegitarisk"
+                  type="checkbox"
+                  value="vegitarisk"
+                  label="Vegitarisk"
+                  checked={this.checkBoxes.vegitarisk}
+                  onChange={e => {
+                    if (e.target.checked) {
+                      this.state.newRecipe.category.push(e.target.name);
+                    } else {
+                      this.state.newRecipe.category.pop(e.target.name);
+                    }
+                    console.log(this.state.newRecipe);
+                  }}
+                />
+                <Input
+                  name="glutenfri"
+                  type="checkbox"
+                  value="glutenfri"
+                  label="Glutenfri"
+                  checked={this.checkBoxes.glutenfri}
+                  onChange={e => {
+                    if (e.target.checked) {
+                      this.state.newRecipe.category.push(e.target.name);
+                    } else {
+                      this.state.newRecipe.category.pop(e.target.name);
+                    }
+                    console.log(this.state.newRecipe);
+                  }}
+                />
+                <Input
+                  name="laktosfri"
+                  type="checkbox"
+                  value="laktosfri"
+                  label="Laktosfri"
+                  checked={this.checkBoxes.laktosfri}
+                  onChange={e => {
+                    if (e.target.checked) {
+                      this.state.newRecipe.category.push(e.target.name);
+                    } else {
+                      this.state.newRecipe.category.pop(e.target.name);
+                    }
+                    console.log(this.state.newRecipe);
+                  }}
+                />
+              </Row>
               <Button waves="red" className="blue" type="submit">
                 Skicka
                 <Icon right>send</Icon>

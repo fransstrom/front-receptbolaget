@@ -8,7 +8,7 @@ import {
   Collection
 } from 'react-materialize';
 
-export let ingredList = [];
+export var ingredList = [];
 
 const IngredientListItem = ({ ingredient, amount }) => {
   return (
@@ -29,12 +29,14 @@ const IngredientListItem = ({ ingredient, amount }) => {
           className="blue addIng"
           waves="green"
           icon="add"
+          
           onClick={function() {
             added();
           }}
         />
       </td>
     </tr>
+    
   );
 
   function added() {

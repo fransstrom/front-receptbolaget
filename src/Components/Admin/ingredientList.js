@@ -2,6 +2,7 @@ import React from 'react';
 import IngredientListItem from './ingredientListItem';
 import { Table } from 'react-materialize';
 const IngredientList = props => {
+  // console.log(props, 'props list')
   const ingredientItem = props.ingredients.map(ingredient => {
     return <IngredientListItem key={ingredient._id} ingredient={ingredient} />;
   });
@@ -10,9 +11,9 @@ const IngredientList = props => {
     <Table className="col-md-4 list-group">
       <thead>
         <tr>
-          <th data-field="id">Ingrediens</th>
-          <th data-field="name">Mängd(g)</th>
-          <th data-field="price">Lägg till</th>
+          <th>Ingrediens</th>
+          <th>Mängd(g)</th>
+          <th>Lägg till</th>
         </tr>
       </thead>
       <tbody>{ingredientItem}</tbody>
