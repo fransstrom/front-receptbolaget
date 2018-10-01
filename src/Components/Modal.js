@@ -1,15 +1,17 @@
 import React from 'react';
 import { Modal, Button } from 'react-materialize';
 import _ from 'lodash';
+import Input from 'react-materialize/lib/Input';
 const MyModal = ({ recipe }) => {
 
   let recipeDetails = recipe.Ingredients.map(recipe => {
     let name = recipe.ingredient.Namn;
     let amount = recipe.amount;
+    let measure=recipe.measure;
+    let quantity=recipe.quantity
     return (
       <li key={name}>
-        {name}: ({amount}
-        g)
+       {quantity}{measure} {name} (ca {amount}g)
       </li>
     );
   });
@@ -60,6 +62,7 @@ const MyModal = ({ recipe }) => {
         {getCal()}
         kcal
       </p>
+
     </Modal>
   );
 };

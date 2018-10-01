@@ -33,7 +33,6 @@ class Main extends Component {
           return found//_.isEqual(categories, filter);
         });
       }
-     
         this.setState({ recipes });
       });
   }
