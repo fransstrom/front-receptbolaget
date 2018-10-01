@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'react-materialize';
 import _ from 'lodash';
-import Input from 'react-materialize/lib/Input';
+import {Input, Row} from 'react-materialize';
 const MyModal = ({ recipe }) => {
 
   let recipeDetails = recipe.Ingredients.map(recipe => {
@@ -17,6 +17,7 @@ const MyModal = ({ recipe }) => {
   });
 
   let instructions = recipe.Instruktioner;
+  let servings=''; 
 
   function getCal() {
     let kalorier = [];
@@ -62,7 +63,15 @@ const MyModal = ({ recipe }) => {
         {getCal()}
         kcal
       </p>
-
+      <Row>
+  <Input s={12} type='select' label="Antal personer" defaultValue='1' onChange={e=>{servings=e.target.value; console.log(servings)}}>
+    <option value='1'>Option 1</option>
+    <option value='2'>Option 2</option>
+    <option value='3'>Option 3</option>
+    <option value='1'>Option 4</option>
+    <option value='2'>Option 5</option>
+  </Input>
+</Row>
     </Modal>
   );
 };
