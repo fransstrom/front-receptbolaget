@@ -7,12 +7,13 @@ export default class MyModal2 extends Component {
     this.state = { servings: 1 };
     this.recipe = this.props.recipe;
     this.instructions = this.recipe.Instruktioner;
+
+    console.log(this.recipe)
   }
 
   getCal = e => {
     let kalorier = [];
     for (let i = 0; i < this.recipe.Ingredients.length; i++) {
-     
       let forCalc = this.recipe.Ingredients[i].amount / 100;
       kalorier.push(
         this.recipe.Ingredients[i].ingredient.Naringsvarden.Naringsvarde.find(
@@ -20,31 +21,45 @@ export default class MyModal2 extends Component {
         ).Varde * forCalc
       );
     }
-   // console.log(kalorier)
-    return <li>Kalorier: {_.sum(kalorier) * this.state.servings}kcal</li>;
+    return (
+      <li>
+        Kalorier: {_.sum(kalorier) * this.state.servings}
+        kcal
+      </li>
+    );
   };
 
   getProtein = e => {
     let protein = [];
     for (let i = 0; i < this.recipe.Ingredients.length; i++) {
-     
       let forCalc = this.recipe.Ingredients[i].amount / 100;
-
       protein.push(
         this.recipe.Ingredients[i].ingredient.Naringsvarden.Naringsvarde.find(
           namn => namn.Namn === 'Protein'
         ).Varde
       );
-     protein[i]=protein[i].replace(',','.')*forCalc
+      protein[i] = protein[i].replace(',', '.') * forCalc;
     }
-    
-    let protAmount=(_.sum(protein) * this.state.servings).toFixed(2)
 
-
+    let protAmount = (_.sum(protein) * this.state.servings).toFixed(2);
     return <li>Protein: {protAmount}g</li>;
   };
 
+  getCarbs = e => {
+    let carbs = [];
+    for (let i = 0; i < this.recipe.Ingredients.length; i++) {
+      let forCalc = this.recipe.Ingredients[i].amount / 100;
+      carbs.push(
+        this.recipe.Ingredients[i].ingredient.Naringsvarden.Naringsvarde.find(
+          namn => namn.Namn === 'Kolhydrater'
+        ).Varde
+      );
+      carbs[i] = carbs[i].replace(',', '.') * forCalc;
+    }
 
+    let carbAmount = (_.sum(carbs) * this.state.servings).toFixed(2);
+    return <li>Kolhydrater: {carbAmount}g</li>;
+  };
 
   render() {
     let servings = this.state.servings;
@@ -93,6 +108,7 @@ export default class MyModal2 extends Component {
           <ul>
             {this.getCal()}
             {this.getProtein()}
+            {this.getCarbs()}
           </ul>
           <Row>
             <Input

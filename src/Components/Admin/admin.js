@@ -85,9 +85,11 @@ export default class Admin extends Component {
   }
 
   onNameChange(event) {
-    let newRecipe = { ...this.state.newRecipe };
-    newRecipe.Name = event.target.value;
-    this.setState({ newRecipe });
+     let newRecipe = { ...this.state.newRecipe };
+     newRecipe.Name = event.target.value;
+     this.setState({ newRecipe });
+  
+
   }
 
   onDescriptionChange(event) {

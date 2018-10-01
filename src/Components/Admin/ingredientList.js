@@ -12,7 +12,9 @@ const IngredientList = props => {
       <thead>
         <tr>
           <th>Ingrediens</th>
-          <th>Mängd(g)</th>
+          <th>Måttenhet</th>
+          <th>Mängd</th>
+          <th>Vikt(g)</th>
           <th>Lägg till</th>
         </tr>
       </thead>

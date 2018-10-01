@@ -20,14 +20,23 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
           type="select"
           className="measure"
           label="Måttenhet"
+          defaultValue=".."
           onChange={function(e) {
          
             measure = e.target.value;
             console.log(measure);
           }}>
+          <option value="..">..</option>
           <option value="st">Styck</option>
-          <option value="dl">Deciliter</option>
+          <option value="kg">Kilo</option>
+          <option value="hg">Hekto</option>
+          <option value="g">Gram</option>
+          <option value="tsk">Tesked</option>
+          <option value="msk">Matsked</option>
+          <option value="ml">Milliliter</option>
           <option value="cl">Centiliter</option>
+          <option value="dl">Deciliter</option>
+          <option value="l">Liter</option>
         </Input>
       </td>
       <td>
@@ -36,7 +45,7 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
       <td>
         <Input
           className="amount"
-          label="Mäng i gram"
+          label="Vikt i gram"
           onChange={function(e) {
             amount = e.target.value;
           }}
