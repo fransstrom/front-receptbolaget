@@ -4,6 +4,7 @@ import IngredientList from './ingredientList';
 import _ from 'lodash';
 import SearchBar from '../searchbar';
 import { ingredList } from './ingredientListItem';
+import { Redirect } from 'react-router-dom';
 //const $ = window.$;
 
 export default class Admin extends Component {
@@ -22,7 +23,7 @@ export default class Admin extends Component {
     };
 
     this.checkBoxes = {
-      vegan: false,
+      vegansk: false,
       vegitarisk: false,
       glutenfri: false,
       laktosfri: false
@@ -85,11 +86,9 @@ export default class Admin extends Component {
   }
 
   onNameChange(event) {
-     let newRecipe = { ...this.state.newRecipe };
-     newRecipe.Name = event.target.value;
-     this.setState({ newRecipe });
-  
-
+    let newRecipe = { ...this.state.newRecipe };
+    newRecipe.Name = event.target.value;
+    this.setState({ newRecipe });
   }
 
   onDescriptionChange(event) {
@@ -120,17 +119,16 @@ export default class Admin extends Component {
           <h4 className="header">Du som admin kan lägga till recept</h4>
           <Col s={6} m={6} l={6}>
             <form
+          
               ref="form"
               onSubmit={e => {
-                e.preventDefault();
+                
                 this.postRecipe(this.newRecipe);
-                window.Materialize.toast(
-                  'Tack för du delar med dig av din recept!',
-                  1000
-                );
+                window.location.replace('http://localhost:3001');
                 console.log(this.newRecipe, 'KLICK');
               }}>
               <Input
+                required
                 value={this.state.newRecipe.Name}
                 id="name"
                 name="Name"
@@ -143,6 +141,7 @@ export default class Admin extends Component {
                 <Icon>import_contacts</Icon>
               </Input>
               <Input
+              required
                 value={this.state.newRecipe.Description}
                 name="description"
                 onChange={this.onDescriptionChange}
@@ -154,10 +153,12 @@ export default class Admin extends Component {
                 <Icon>description</Icon>
               </Input>
               <SearchBar
+                recipes={this.state.ingredients}
                 placeholder="Sök ingrediens"
                 onSearchTermChange={ingredientSearch}
               />
               <Input
+              required
                 value={this.state.newRecipe.Instruktioner}
                 name="Instruktioner"
                 onChange={this.onInstructionChange}
@@ -169,6 +170,7 @@ export default class Admin extends Component {
                 <Icon>more_vert</Icon>
               </Input>
               <Input
+              required
                 value={this.state.newRecipe.IMGUrl}
                 onChange={this.onIMGUrlChange}
                 type="text"
@@ -181,11 +183,12 @@ export default class Admin extends Component {
               </Input>
               <Row>
                 <Input
-                  name="vegan"
+                
+                  name="vegansk"
                   type="checkbox"
                   value="vegansk"
                   label="Vegansk"
-                  checked={this.checkBoxes.vegan}
+                  checked={this.checkBoxes.vegansk}
                   onChange={e => {
                     if (e.target.checked) {
                       this.state.newRecipe.category.push(e.target.name);

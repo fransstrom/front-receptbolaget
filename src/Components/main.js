@@ -4,7 +4,7 @@ import SearchBar from './searchbar';
 import RecipeList from './recipeList';
 import _ from 'lodash';
 import { Row, Button, Icon, Input } from 'react-materialize';
-
+const $ = window.$;
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +12,7 @@ class Main extends Component {
     this.recipeSearch('');
 
     this.checkBoxes = {
-      vegan: false,
+      vegansk: false,
       vegitarisk: false,
       glutenfri: false,
       laktosfri: false
@@ -20,22 +20,33 @@ class Main extends Component {
     this.term = '';
     this.filterCat = [];
   }
+  //  componentDidMount(){
+  //    $(document).ready(function(){
+  //      $("body").on("click",'.autocomplete-content.dropdown-content li',function(event){
+  //        this.term=event.target.value;
+  //        console.log("helloo");
+  //      });
 
+  //    });
+  //  }
   recipeSearch(term) {
     fetch(`http://localhost:3000/allarecept/${term}`)
       .then(response => response.json())
       .then(recipes => {
         if (this.filterCat.length > 0) {
-           recipes = recipes.filter(e => {
+          let filter = this.filterCat.sort();
+          recipes = recipes.filter(e => {
             let categories = e.category.sort();
-            let filter = this.filterCat.sort();
-       
-            let found = categories.some(r => {
-              return filter.indexOf(r) >= 0;
-            });
-         
-            return found; //_.isEqual(categories, filter);
+
+            console.log(categories);
+            console.log(filter);
+
+            //  let found = categories.some(r => {
+            //    return filter.indexOf(r) >= 0;
+            //  });
+            return _.isEqual(categories, filter);
           });
+        
         }
         this.setState({ recipes });
       });
@@ -57,16 +68,16 @@ class Main extends Component {
         <SearchBar placeholder="Sök recept" onSearchTermChange={recipeSearch} />
         <Row>
           <Input
-            name="vegan"
+            name="vegansk"
             type="checkbox"
             value="vegansk"
             label="Vegansk"
-            checked={this.checkBoxes.vegan}
+            checked={this.checkBoxes.vegansk}
             onChange={e => {
               if (e.target.checked) {
                 this.filterCat.push(e.target.value);
               } else {
-                var index = this.filterCat.indexOf('vegansk');
+                var index = this.filterCat.indexOf(e.target.name);
                 if (index > -1) {
                   this.filterCat.splice(index, 1);
                 }

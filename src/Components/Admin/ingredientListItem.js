@@ -66,6 +66,10 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
   );
 
   function added() {
+    window.Materialize.toast(
+      'Ingredienst tillagd',
+      1000
+    );
     console.log(ingredList);
     ingredList.push({ ingredient, measure, quantity, amount });
     let i = 0;
