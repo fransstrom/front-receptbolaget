@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { Input, Row, Modal, Button } from 'react-materialize';
 import _ from 'lodash';
-export default class MyModal2 extends Component {
+export default class RecipeModal extends Component {
   constructor(props) {
     super(props);
     this.state = { servings: 1 };
     this.recipe = this.props.recipe;
     this.instructions = this.recipe.Instruktioner;
-
-    console.log(this.recipe)
   }
 
 
@@ -85,9 +83,9 @@ export default class MyModal2 extends Component {
               <option value="4">4</option>
               <option value="5">5</option>
             </Input>
-          </Row>,
+          </Row>
           <h5>Instruktioner</h5>
-          <p>{this.instructions}</p>
+          <ul>{this.instructions}</ul>
           <h5>Näringsvärden per portion</h5>
           <ul>
             {this.getNutrient('Kalorier','Energi (kcal)', 'kcal')}

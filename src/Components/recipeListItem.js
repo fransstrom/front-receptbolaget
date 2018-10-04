@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Col, CardTitle } from 'react-materialize';
-import MyModal2 from './modal2';
+
+import RecipeModal from './recipeModal';
 let ids=900;
 const RecipeListItem = ({ recipe }) => {
 const categories=recipe.category.map(e=>{return <li className="list-inline-item" key={Math.random(ids)+900}>{e}</li>})
@@ -15,7 +16,7 @@ const categories=recipe.category.map(e=>{return <li className="list-inline-item"
           <br></br>
          <ul className="list-inline">{categories}</ul>
           
-          <MyModal2 recipe={recipe}></MyModal2>
+          <RecipeModal recipe={recipe}></RecipeModal>
         </Card>
       </Col>
   );
