@@ -11,54 +11,22 @@ export default class MyModal2 extends Component {
     console.log(this.recipe)
   }
 
-  getCal = e => {
-    let kalorier = [];
-    for (let i = 0; i < this.recipe.Ingredients.length; i++) {
-      let forCalc = this.recipe.Ingredients[i].amount / 100;
-      kalorier.push(
-        this.recipe.Ingredients[i].ingredient.Naringsvarden.Naringsvarde.find(
-          namn => namn.Namn === 'Energi (kcal)'
-        ).Varde * forCalc
-      );
-    }
-    return (
-      <li>
-        Kalorier: {_.sum(kalorier) * this.state.servings}
-        kcal
-      </li>
-    );
-  };
 
-  getProtein = e => {
-    let protein = [];
-    for (let i = 0; i < this.recipe.Ingredients.length; i++) {
-      let forCalc = this.recipe.Ingredients[i].amount / 100;
-      protein.push(
-        this.recipe.Ingredients[i].ingredient.Naringsvarden.Naringsvarde.find(
-          namn => namn.Namn === 'Protein'
-        ).Varde
-      );
-      protein[i] = protein[i].replace(',', '.') * forCalc;
-    }
-
-    let protAmount = (_.sum(protein) * this.state.servings).toFixed(2);
-    return <li>Protein: {protAmount}g</li>;
-  };
-
-  getCarbs = e => {
+  getNutrient (shortName, nutrition, unit){
     let carbs = [];
     for (let i = 0; i < this.recipe.Ingredients.length; i++) {
       let forCalc = this.recipe.Ingredients[i].amount / 100;
       carbs.push(
         this.recipe.Ingredients[i].ingredient.Naringsvarden.Naringsvarde.find(
-          namn => namn.Namn === 'Kolhydrater'
+          namn => namn.Namn === nutrition
         ).Varde
       );
       carbs[i] = carbs[i].replace(',', '.') * forCalc;
     }
-
-    let carbAmount = (_.sum(carbs) * this.state.servings).toFixed(2);
-    return <li>Kolhydrater: {carbAmount}g</li>;
+   
+    let carbAmount = (_.sum(carbs)).toFixed(2).replace('.',',');
+   
+    return <li>{shortName}: {carbAmount} {unit}</li>;
   };
 
   render() {
@@ -78,7 +46,7 @@ export default class MyModal2 extends Component {
     });
 
     return (
-      <div>
+      
         <Modal fixedFooter trigger={<Button>Till receptet</Button>}>
           <div
             className="row"
@@ -102,17 +70,9 @@ export default class MyModal2 extends Component {
           {this.recipe.Description}
           <h5>Ingredienser</h5>
           <ol>{this.recipeDetails}</ol>
-          <h5>Instruktioner</h5>
-          <p>{this.instructions}</p>
-          <h5>Näringsvärden</h5>
-          <ul>
-            {this.getCal()}
-            {this.getProtein()}
-            {this.getCarbs()}
-          </ul>
           <Row>
             <Input
-              s={12}
+              s={3}
               type="select"
               label="Antal personer"
               defaultValue="1"
@@ -125,9 +85,23 @@ export default class MyModal2 extends Component {
               <option value="4">4</option>
               <option value="5">5</option>
             </Input>
-          </Row>
+          </Row>,
+          <h5>Instruktioner</h5>
+          <p>{this.instructions}</p>
+          <h5>Näringsvärden per portion</h5>
+          <ul>
+            {this.getNutrient('Kalorier','Energi (kcal)', 'kcal')}
+            {this.getNutrient('Protein','Protein', 'g')}
+            {this.getNutrient('Kolhydrater','Kolhydrater', 'g')}
+            {this.getNutrient('Salt','Salt', 'g')}
+            {this.getNutrient('Mättat fett','Summa mättade fettsyror', 'g')}
+            {this.getNutrient('Enkelomättat fett','Summa enkelomättade fettsyror', 'g')}
+            {this.getNutrient('Fleromättat fett','Summa fleromättade fettsyror', 'g')}
+            {this.getNutrient('Socker','Socker totalt', 'g')}
+          </ul>
+
         </Modal>
-      </div>
+     
     );
   }
 }

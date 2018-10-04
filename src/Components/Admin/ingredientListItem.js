@@ -14,7 +14,6 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
   return (
     <tr data={ingredient} className="ingredient">
       <td>{ingredient.Namn}</td>
-
       <td>
         <Input
           type="select"
@@ -80,8 +79,7 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
           {i + '. '}
           {ingredient.ingredient.Namn}{' '}
           <Badge>
-            {ingredient.amount}
-            gram
+            {ingredient.quantity} {ingredient.measure}
           </Badge>
         </CollectionItem>
       );

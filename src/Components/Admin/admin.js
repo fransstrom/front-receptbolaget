@@ -4,15 +4,14 @@ import IngredientList from './ingredientList';
 import _ from 'lodash';
 import SearchBar from '../searchbar';
 import { ingredList } from './ingredientListItem';
-import { Redirect } from 'react-router-dom';
 //const $ = window.$;
 
 export default class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ingredients: [],
-      newRecipe: {
+        ingredients: [],
+        newRecipe: {
         Name: '',
         Description: '',
         Ingredients: ingredList,
@@ -24,7 +23,7 @@ export default class Admin extends Component {
 
     this.checkBoxes = {
       vegansk: false,
-      vegitarisk: false,
+      vegetarisk: false,
       glutenfri: false,
       laktosfri: false
     };
@@ -72,17 +71,9 @@ export default class Admin extends Component {
       })
       .then(body => {
         console.log(body, 'body');
+        window.location.replace('http://localhost:3001');
       })
       .catch(e => console.log(e, 'error'));
-    this.setState({
-      newRecipe: {
-        Name: '',
-        Description: '',
-        Ingredients: [],
-        Instruktioner: '',
-        IMGUrl: ''
-      }
-    });
   }
 
   onNameChange(event) {
@@ -114,17 +105,17 @@ export default class Admin extends Component {
     }, 300);
 
     return (
-      <div>
+     
         <Row>
           <h4 className="header">Du som admin kan lägga till recept</h4>
+          <p className="warning">Du lägger alltid till mängden ingredienser för 1 person</p>
           <Col s={6} m={6} l={6}>
             <form
-          
+            autocomplete="off"
               ref="form"
               onSubmit={e => {
-                
+                e.preventDefault();
                 this.postRecipe(this.newRecipe);
-                window.location.replace('http://localhost:3001');
                 console.log(this.newRecipe, 'KLICK');
               }}>
               <Input
@@ -141,7 +132,7 @@ export default class Admin extends Component {
                 <Icon>import_contacts</Icon>
               </Input>
               <Input
-              required
+                required
                 value={this.state.newRecipe.Description}
                 name="description"
                 onChange={this.onDescriptionChange}
@@ -157,8 +148,9 @@ export default class Admin extends Component {
                 placeholder="Sök ingrediens"
                 onSearchTermChange={ingredientSearch}
               />
+               <Col id="added" s={12} m={12} l={12} />
               <Input
-              required
+                required
                 value={this.state.newRecipe.Instruktioner}
                 name="Instruktioner"
                 onChange={this.onInstructionChange}
@@ -170,7 +162,7 @@ export default class Admin extends Component {
                 <Icon>more_vert</Icon>
               </Input>
               <Input
-              required
+                required
                 value={this.state.newRecipe.IMGUrl}
                 onChange={this.onIMGUrlChange}
                 type="text"
@@ -183,7 +175,6 @@ export default class Admin extends Component {
               </Input>
               <Row>
                 <Input
-                
                   name="vegansk"
                   type="checkbox"
                   value="vegansk"
@@ -199,10 +190,10 @@ export default class Admin extends Component {
                   }}
                 />
                 <Input
-                  name="vegitarisk"
+                  name="vegetarisk"
                   type="checkbox"
-                  value="vegitarisk"
-                  label="Vegitarisk"
+                  value="vegetarisk"
+                  label="Vegetarisk"
                   checked={this.checkBoxes.vegitarisk}
                   onChange={e => {
                     if (e.target.checked) {
@@ -255,9 +246,9 @@ export default class Admin extends Component {
               <IngredientList ingredients={this.state.ingredients} />
             </Collection>
           </Col>
-          <Col id="added" s={6} m={6} l={6} />
+         
         </Row>
-      </div>
+     
     );
   }
 }

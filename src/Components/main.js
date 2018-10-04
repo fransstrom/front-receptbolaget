@@ -4,7 +4,7 @@ import SearchBar from './searchbar';
 import RecipeList from './recipeList';
 import _ from 'lodash';
 import { Row, Button, Icon, Input } from 'react-materialize';
-const $ = window.$;
+//const $ = window.$;
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +13,7 @@ class Main extends Component {
 
     this.checkBoxes = {
       vegansk: false,
-      vegitarisk: false,
+      vegetarisk: false,
       glutenfri: false,
       laktosfri: false
     };
@@ -86,16 +86,16 @@ class Main extends Component {
             }}
           />
           <Input
-            name="vegitarisk"
+            name="vegetarisk"
             type="checkbox"
-            value="vegitarisk"
-            label="Vegitarisk"
-            checked={this.checkBoxes.vegitarisk}
+            value="vegetarisk"
+            label="Vegetarisk"
+            checked={this.checkBoxes.vegetarisk}
             onChange={e => {
               if (e.target.checked) {
                 this.filterCat.push(e.target.value);
               } else {
-                var index = this.filterCat.indexOf('vegitarisk');
+                var index = this.filterCat.indexOf('vegetarisk');
                 if (index > -1) {
                   this.filterCat.splice(index, 1);
                 }
