@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Icon } from 'react-materialize';
+
 const $ = window.$;
 class SearchBar extends Component {
   constructor(props) {
@@ -8,26 +9,25 @@ class SearchBar extends Component {
     this.state = { term: '' };
   }
 
-  componentDidMount(){
-
+  componentDidMount() {
+    
   }
-
 
   render() {
     return (
-      <Input
-      autoComplete="off"
-      type='text'
-      className="autocomplete"
-        label={this.props.placeholder}
-        value={this.state.term}
-        onChange={event => this.onInputChange(event.target.value)}
-        s={12}
-        m={12}
-        l={12}>
-        <Icon>fastfood</Icon>
-
-      </Input>
+      <div>
+        <Input
+          autoComplete="off"
+          type="text"
+          label={this.props.placeholder}
+          value={this.state.term}
+          onChange={event => this.onInputChange(event.target.value)}
+          s={12}
+          m={12}
+          l={12}>
+          <Icon>fastfood</Icon>
+        </Input>
+      </div>
     );
   }
 

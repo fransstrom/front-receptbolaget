@@ -4,7 +4,8 @@ import SearchBar from './searchbar';
 import RecipeList from './recipeList';
 import _ from 'lodash';
 import { Row, Button, Icon, Input } from 'react-materialize';
-//const $ = window.$;
+import AutoCompleteism from './autocomplete';
+const $ = window.$;
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +30,9 @@ class Main extends Component {
 
   //    });
   //  }
+
+
+
   recipeSearch(term) {
     fetch(`http://localhost:3000/allarecept/${term}`)
       .then(response => response.json())
@@ -46,7 +50,6 @@ class Main extends Component {
             //  });
             return _.isEqual(categories, filter);
           });
-        
         }
         this.setState({ recipes });
       });
@@ -55,9 +58,13 @@ class Main extends Component {
   render() {
     const recipeSearch = _.debounce(term => {
       this.recipeSearch(term);
+    
       this.term = term;
+      
     }, 300);
 
+
+    console.log(this.term, 'borde vara detta')
     return (
       <div className="App">
         <h1>ReceptBolaget</h1>
@@ -65,7 +72,12 @@ class Main extends Component {
           Admins only
           <Icon right>do_not_disturb_alt</Icon>
         </Button>
-        <SearchBar placeholder="Sök recept" onSearchTermChange={recipeSearch} />
+        <SearchBar placeholder="Sök recept" onSearchTermChange={recipeSearch} term={this.term}/>
+        <AutoCompleteism
+          data={this.state.recipes}
+          clickTermChange={recipeSearch}
+          term={this.term}
+        />
         <Row>
           <Input
             name="vegansk"

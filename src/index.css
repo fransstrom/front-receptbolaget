@@ -19,3 +19,22 @@ body {
   color:red;
   font-weight: bold;
 }
+
+.autoListItem{
+  margin-top:0;
+}
+
+.autoList{
+  text-align: left;
+  font-size: 20px;
+
+  padding:10px 30px;
+  cursor:pointer
+}
+
+.autoList:hover{
+
+  background-color: #26a69a8a;
+  color:white;
+}
+
