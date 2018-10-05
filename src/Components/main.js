@@ -6,7 +6,6 @@ import _ from 'lodash';
 import { Row, Button, Icon, Input } from 'react-materialize';
 import AutoCompleteism from './autocomplete';
 
-
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +18,7 @@ class Main extends Component {
       glutenfri: false,
       laktosfri: false
     };
+
     this.term = '';
     this.filterCat = [];
   }
@@ -30,15 +30,10 @@ class Main extends Component {
           let filter = this.filterCat.sort();
           recipes = recipes.filter(e => {
             let categories = e.category.sort();
-
-            console.log(categories);
-            console.log(filter);
-
             //En variant för filter
             //  let found = categories.some(r => {
             //    return filter.indexOf(r) >= 0;
             //  });
-
             return _.isEqual(categories, filter);
           });
         }
@@ -46,8 +41,20 @@ class Main extends Component {
       });
   }
 
+  checkBoxHandler(e) {
+    if (e.target.checked) {
+      this.filterCat.push(e.target.value);
+    } else {
+      var index = this.filterCat.indexOf(e.target.name);
+      if (index > -1) {
+        this.filterCat.splice(index, 1);
+      }
+    }
+    this.recipeSearch(this.term);
+  }
+
   render() {
-    //Autocompleten funkar bättre utan debounce
+    //AutoCompleteism funkar bättre utan debounce
     // const recipeSearch = _.debounce(term => {
     //   this.term = term;
     //   this.recipeSearch(term);
@@ -58,6 +65,7 @@ class Main extends Component {
       this.recipeSearch(term);
     };
 
+    //<li>taggar</li> till min AutoCompleteism.
     if (this.term.length > 1) {
       this.AutoRecipe = this.state.recipes.map(e => (
         <li
@@ -72,7 +80,6 @@ class Main extends Component {
       this.AutoRecipe = [];
     }
 
-    console.log(this.term, 'borde vara detta');
     return (
       <div className="App">
         <h1>ReceptBolaget</h1>
@@ -85,10 +92,7 @@ class Main extends Component {
           onSearchTermChange={recipeSearch}
           term={this.term}
         />
-        <AutoCompleteism
-          data={this.AutoRecipe}
-          term={this.term}
-        />
+        <AutoCompleteism data={this.AutoRecipe} term={this.term} />
         <Row>
           <Input
             name="vegansk"
@@ -97,15 +101,7 @@ class Main extends Component {
             label="Vegansk"
             checked={this.checkBoxes.vegansk}
             onChange={e => {
-              if (e.target.checked) {
-                this.filterCat.push(e.target.value);
-              } else {
-                var index = this.filterCat.indexOf(e.target.name);
-                if (index > -1) {
-                  this.filterCat.splice(index, 1);
-                }
-              }
-              this.recipeSearch(this.term);
+              this.checkBoxHandler(e);
             }}
           />
           <Input
@@ -115,15 +111,7 @@ class Main extends Component {
             label="Vegetarisk"
             checked={this.checkBoxes.vegetarisk}
             onChange={e => {
-              if (e.target.checked) {
-                this.filterCat.push(e.target.value);
-              } else {
-                var index = this.filterCat.indexOf('vegetarisk');
-                if (index > -1) {
-                  this.filterCat.splice(index, 1);
-                }
-              }
-              this.recipeSearch(this.term);
+              this.checkBoxHandler(e);
             }}
           />
           <Input
@@ -133,15 +121,7 @@ class Main extends Component {
             label="Glutenfri"
             checked={this.checkBoxes.glutenfri}
             onChange={e => {
-              if (e.target.checked) {
-                this.filterCat.push(e.target.value);
-              } else {
-                var index = this.filterCat.indexOf('glutenfri');
-                if (index > -1) {
-                  this.filterCat.splice(index, 1);
-                }
-              }
-              this.recipeSearch(this.term);
+              this.checkBoxHandler(e);
             }}
           />
           <Input
@@ -151,15 +131,7 @@ class Main extends Component {
             label="Laktosfri"
             checked={this.checkBoxes.laktosfri}
             onChange={e => {
-              if (e.target.checked) {
-                this.filterCat.push(e.target.value);
-              } else {
-                var index = this.filterCat.indexOf('laktosfri');
-                if (index > -1) {
-                  this.filterCat.splice(index, 1);
-                }
-              }
-              this.recipeSearch(this.term);
+              this.checkBoxHandler(e);
             }}
           />
         </Row>

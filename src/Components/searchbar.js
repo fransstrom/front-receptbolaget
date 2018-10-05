@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Input, Icon } from 'react-materialize';
 
 class SearchBar extends Component {
-
+  
   render() {
     return (
       <div>

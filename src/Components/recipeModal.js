@@ -4,7 +4,7 @@ import _ from 'lodash';
 export default class RecipeModal extends Component {
   constructor(props) {
     super(props);
-    this.state = { servings: 1 };
+    this.state = { servings: 4 };
     this.recipe = this.props.recipe;
     this.instructions = this.recipe.Instruktioner;
   }
@@ -21,9 +21,7 @@ export default class RecipeModal extends Component {
       );
       carbs[i] = carbs[i].replace(',', '.') * forCalc;
     }
-   
     let carbAmount = (_.sum(carbs)).toFixed(2).replace('.',',');
-   
     return <li>{shortName}: {carbAmount} {unit}</li>;
   };
 
@@ -73,7 +71,7 @@ export default class RecipeModal extends Component {
               s={3}
               type="select"
               label="Antal personer"
-              defaultValue="1"
+              defaultValue={this.state.servings}
               onChange={e => {
                 this.setState({ servings: e.target.value });
               }}>

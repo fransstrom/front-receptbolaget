@@ -4,7 +4,7 @@ import IngredientList from './ingredientList';
 import _ from 'lodash';
 import SearchBar from '../searchbar';
 import { ingredList } from './ingredientListItem';
-
+import AutoCompleteism from '../autocomplete';
 
 export default class Admin extends Component {
   constructor(props) {
@@ -30,8 +30,7 @@ export default class Admin extends Component {
     };
 
     this.term = '';
-    this.ingredientSearch(this.term);
-    
+    this.ingredientSearch('');
   }
 
   ingredientSearch(term) {
@@ -52,37 +51,53 @@ export default class Admin extends Component {
       body: recipe
     })
       .then(response => {
-        console.log(response, 'resp');
-        console.log(recipe);
         return response.json();
       })
       .then(body => {
-        console.log(body, 'body');
+        console.log('responsebody:', body);
         window.location.replace('http://localhost:3001');
       })
       .catch(e => console.log(e, 'error'));
   }
 
-  handleCheck (e){
-   
-      if (e.target.checked) {
-        this.newRecipe.category.push(e.target.value);
-      } else {
-        var index = this.newRecipe.category.indexOf(e.target.name);
-        if (index > -1) {
-          this.newRecipe.category.splice(index, 1);
-        }
+  handleCheck(e) {
+    if (e.target.checked) {
+      this.newRecipe.category.push(e.target.value);
+    } else {
+      var index = this.newRecipe.category.indexOf(e.target.name);
+      if (index > -1) {
+        this.newRecipe.category.splice(index, 1);
       }
-     console.log(this.newRecipe.category)
-    
+    }
   }
 
   render() {
     const ingredientSearch = _.debounce(term => {
       if (term.length > 1) {
+        this.term = term;
         this.ingredientSearch(term);
       }
     }, 300);
+
+    //*******<li>taggar</li> för ingredienser i AutoCompleteism
+    //*******Kommenterar ut för det är någon bugg med vissa ingredienser 
+    //*******i databasen som visar sig när man lägger till recept
+
+    // if (this.term.length > 1) {
+    //   this.AutoIngred = this.state.ingredients.map(e => (
+    //     <li
+    //       className="autoList"
+    //       key={e._id}
+    //       data={e.Namn}
+    //       onClick={event =>
+    //         ingredientSearch(event.target.attributes.data.value)
+    //       }>
+    //       {e.Namn}
+    //     </li>
+    //   ));
+    // } else {
+    //   this.AutoIngred = [];
+    // }
 
     return (
       <Row>
@@ -97,7 +112,6 @@ export default class Admin extends Component {
             onSubmit={e => {
               e.preventDefault();
               this.postRecipe(this.newRecipe);
-              console.log(this.newRecipe, 'KLICK');
             }}>
             <Input
               required
@@ -123,10 +137,19 @@ export default class Admin extends Component {
               <Icon>description</Icon>
             </Input>
             <SearchBar
-              recipes={this.state.ingredients}
               placeholder="Sök ingrediens"
               onSearchTermChange={ingredientSearch}
             />
+             {/* 
+             
+             Dessa raderna tillhör kommentarerna ovan
+
+             <Col s={12} m={12} l={12}>
+              <AutoCompleteism data={this.AutoIngred} term={this.term} />
+            </Col> 
+            
+            
+            */}
             <Col id="added" s={12} m={12} l={12} />
             <Input
               required
@@ -156,7 +179,7 @@ export default class Admin extends Component {
                 type="checkbox"
                 value="vegansk"
                 label="Vegansk"
-                onChange={e=>this.handleCheck(e)}
+                onChange={e => this.handleCheck(e)}
               />
               <Input
                 name="vegetarisk"
@@ -164,7 +187,7 @@ export default class Admin extends Component {
                 value="vegetarisk"
                 label="Vegetarisk"
                 checked={this.checkBoxes.vegitarisk}
-                onChange={e=>this.handleCheck(e)}
+                onChange={e => this.handleCheck(e)}
               />
               <Input
                 name="glutenfri"
@@ -172,7 +195,7 @@ export default class Admin extends Component {
                 value="glutenfri"
                 label="Glutenfri"
                 checked={this.checkBoxes.glutenfri}
-                onChange={e=>this.handleCheck(e)}
+                onChange={e => this.handleCheck(e)}
               />
               <Input
                 name="laktosfri"
@@ -180,7 +203,7 @@ export default class Admin extends Component {
                 value="laktosfri"
                 label="Laktosfri"
                 checked={this.checkBoxes.laktosfri}
-                onChange={e=>this.handleCheck(e)}
+                onChange={e => this.handleCheck(e)}
               />
             </Row>
             <Button waves="red" className="blue" type="submit">

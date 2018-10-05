@@ -5,8 +5,10 @@ import {
   Input,
   Badge,
   CollectionItem,
-  Collection
+  Collection,
+  Icon
 } from 'react-materialize';
+
 
 export var ingredList = [];
 
@@ -22,7 +24,6 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
           defaultValue=".."
           onChange={function(e) {
             measure = e.target.value;
-            console.log(measure);
           }}>
           <option value="..">..</option>
           <option value="st">Styck</option>
@@ -86,27 +87,15 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
     
             {ingredient.quantity} {ingredient.measure}
          <Badge>
-          <Button
-          className="waves-effect waves-light btn-small red"
-          value="Ta bort"
-            onClick={e => {
-              e.preventDefault();
-              var index = ingredList.indexOf(ingredient.ingredient.Namn);
-
-              ingredList.splice(index, 1);
-              window.Materialize.toast('Ingredienst borttagen, tro mig!', 2000);
-              console.log(index);
-            }}
-          >Ta bort</Button>
+           <Icon>fastfood</Icon>
           </Badge>
         </CollectionItem>
       );
     });
-    function deleted(e){
-
-    }
     ReactDOM.render(
-      <Collection>{ingredsAdded}</Collection>,
+      <div>
+      <p>Tillagda ingedienser</p>
+      <Collection>{ingredsAdded}</Collection></div>,
       document.getElementById('added')
     );
   }
