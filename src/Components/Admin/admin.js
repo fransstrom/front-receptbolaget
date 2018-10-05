@@ -4,25 +4,23 @@ import IngredientList from './ingredientList';
 import _ from 'lodash';
 import SearchBar from '../searchbar';
 import { ingredList } from './ingredientListItem';
-//const $ = window.$;
+
 
 export default class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ingredients: [],
+      ingredients: []
     };
 
-    this.newRecipe={
-     
-        Name: '',
-        Description: '',
-        Ingredients: ingredList,
-        Instruktioner: '',
-        IMGUrl: '',
-        category: []
-      
-    }
+    this.newRecipe = {
+      Name: '',
+      Description: '',
+      Ingredients: ingredList,
+      Instruktioner: '',
+      IMGUrl: '',
+      category: []
+    };
 
     this.checkBoxes = {
       vegansk: false,
@@ -33,6 +31,7 @@ export default class Admin extends Component {
 
     this.term = '';
     this.ingredientSearch(this.term);
+    
   }
 
   ingredientSearch(term) {
@@ -64,11 +63,25 @@ export default class Admin extends Component {
       .catch(e => console.log(e, 'error'));
   }
 
-
+  handleCheck (e){
+   
+      if (e.target.checked) {
+        this.newRecipe.category.push(e.target.value);
+      } else {
+        var index = this.newRecipe.category.indexOf(e.target.name);
+        if (index > -1) {
+          this.newRecipe.category.splice(index, 1);
+        }
+      }
+     console.log(this.newRecipe.category)
+    
+  }
 
   render() {
     const ingredientSearch = _.debounce(term => {
-      this.ingredientSearch(term);
+      if (term.length > 1) {
+        this.ingredientSearch(term);
+      }
     }, 300);
 
     return (
@@ -88,12 +101,10 @@ export default class Admin extends Component {
             }}>
             <Input
               required
-        
               id="name"
               name="Name"
-      
               cat="newRecipe"
-              onChange={e=>this.newRecipe.Name=e.target.value}
+              onChange={e => (this.newRecipe.Name = e.target.value)}
               s={12}
               m={12}
               l={12}
@@ -101,9 +112,9 @@ export default class Admin extends Component {
               <Icon>import_contacts</Icon>
             </Input>
             <Input
-              required  
+              required
               name="Description"
-              onChange={e=>this.newRecipe.Description=e.target.value}
+              onChange={e => (this.newRecipe.Description = e.target.value)}
               s={12}
               m={12}
               l={12}
@@ -120,7 +131,7 @@ export default class Admin extends Component {
             <Input
               required
               name="Instruktioner"
-              onChange={e=>this.newRecipe.Instruktioner=e.target.value}
+              onChange={e => (this.newRecipe.Instruktioner = e.target.value)}
               type="textarea"
               label="Instruktioner"
               s={12}
@@ -130,8 +141,7 @@ export default class Admin extends Component {
             </Input>
             <Input
               required
-             
-              onChange={e=>this.newRecipe.IMGUrl=e.target.value}
+              onChange={e => (this.newRecipe.IMGUrl = e.target.value)}
               type="text"
               label="Bild-länk"
               icon="search"
@@ -146,15 +156,7 @@ export default class Admin extends Component {
                 type="checkbox"
                 value="vegansk"
                 label="Vegansk"
-                checked={this.checkBoxes.vegansk}
-                onChange={e => {
-                  if (e.target.checked) {
-                    this.state.newRecipe.category.push(e.target.name);
-                  } else {
-                    this.state.newRecipe.category.pop(e.target.name);
-                  }
-                  console.log(this.state.newRecipe);
-                }}
+                onChange={e=>this.handleCheck(e)}
               />
               <Input
                 name="vegetarisk"
@@ -162,14 +164,7 @@ export default class Admin extends Component {
                 value="vegetarisk"
                 label="Vegetarisk"
                 checked={this.checkBoxes.vegitarisk}
-                onChange={e => {
-                  if (e.target.checked) {
-                    this.newRecipe.category.push(e.target.name);
-                  } else {
-                    this.newRecipe.category.pop(e.target.name);
-                  }
-                  console.log(this.newRecipe);
-                }}
+                onChange={e=>this.handleCheck(e)}
               />
               <Input
                 name="glutenfri"
@@ -177,14 +172,7 @@ export default class Admin extends Component {
                 value="glutenfri"
                 label="Glutenfri"
                 checked={this.checkBoxes.glutenfri}
-                onChange={e => {
-                  if (e.target.checked) {
-                    this.newRecipe.category.push(e.target.name);
-                  } else {
-                    this.newRecipe.category.pop(e.target.name);
-                  }
-                  console.log(this.newRecipe);
-                }}
+                onChange={e=>this.handleCheck(e)}
               />
               <Input
                 name="laktosfri"
@@ -192,14 +180,7 @@ export default class Admin extends Component {
                 value="laktosfri"
                 label="Laktosfri"
                 checked={this.checkBoxes.laktosfri}
-                onChange={e => {
-                  if (e.target.checked) {
-                    this.newRecipe.category.push(e.target.name);
-                  } else {
-                    this.newRecipe.category.pop(e.target.name);
-                  }
-                  console.log(this.newRecipe);
-                }}
+                onChange={e=>this.handleCheck(e)}
               />
             </Row>
             <Button waves="red" className="blue" type="submit">

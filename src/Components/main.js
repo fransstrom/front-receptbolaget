@@ -5,7 +5,8 @@ import RecipeList from './recipeList';
 import _ from 'lodash';
 import { Row, Button, Icon, Input } from 'react-materialize';
 import AutoCompleteism from './autocomplete';
-const $ = window.$;
+
+
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -21,18 +22,6 @@ class Main extends Component {
     this.term = '';
     this.filterCat = [];
   }
-  //  componentDidMount(){
-  //    $(document).ready(function(){
-  //      $("body").on("click",'.autocomplete-content.dropdown-content li',function(event){
-  //        this.term=event.target.value;
-  //        console.log("helloo");
-  //      });
-
-  //    });
-  //  }
-
-
-
   recipeSearch(term) {
     fetch(`http://localhost:3000/allarecept/${term}`)
       .then(response => response.json())
@@ -45,9 +34,11 @@ class Main extends Component {
             console.log(categories);
             console.log(filter);
 
+            //En variant för filter
             //  let found = categories.some(r => {
             //    return filter.indexOf(r) >= 0;
             //  });
+
             return _.isEqual(categories, filter);
           });
         }
@@ -56,15 +47,32 @@ class Main extends Component {
   }
 
   render() {
-    const recipeSearch = _.debounce(term => {
-      this.recipeSearch(term);
-    
+    //Autocompleten funkar bättre utan debounce
+    // const recipeSearch = _.debounce(term => {
+    //   this.term = term;
+    //   this.recipeSearch(term);
+    // }, 300);
+
+    const recipeSearch = term => {
       this.term = term;
-      
-    }, 300);
+      this.recipeSearch(term);
+    };
 
+    if (this.term.length > 1) {
+      this.AutoRecipe = this.state.recipes.map(e => (
+        <li
+          className="autoList"
+          key={e._id}
+          data={e.Name}
+          onClick={event => recipeSearch(event.target.attributes.data.value)}>
+          {e.Name}
+        </li>
+      ));
+    } else {
+      this.AutoRecipe = [];
+    }
 
-    console.log(this.term, 'borde vara detta')
+    console.log(this.term, 'borde vara detta');
     return (
       <div className="App">
         <h1>ReceptBolaget</h1>
@@ -72,10 +80,13 @@ class Main extends Component {
           Admins only
           <Icon right>do_not_disturb_alt</Icon>
         </Button>
-        <SearchBar placeholder="Sök recept" onSearchTermChange={recipeSearch} term={this.term}/>
+        <SearchBar
+          placeholder="Sök recept"
+          onSearchTermChange={recipeSearch}
+          term={this.term}
+        />
         <AutoCompleteism
-          data={this.state.recipes}
-          clickTermChange={recipeSearch}
+          data={this.AutoRecipe}
           term={this.term}
         />
         <Row>

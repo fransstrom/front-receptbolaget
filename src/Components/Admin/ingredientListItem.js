@@ -21,7 +21,6 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
           label="Måttenhet"
           defaultValue=".."
           onChange={function(e) {
-         
             measure = e.target.value;
             console.log(measure);
           }}>
@@ -39,7 +38,13 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
         </Input>
       </td>
       <td>
-        <Input className="antal" label="Antal" onChange={function(e) {quantity = e.target.value;}} />
+        <Input
+          className="antal"
+          label="Antal"
+          onChange={function(e) {
+            quantity = e.target.value;
+          }}
+        />
       </td>
       <td>
         <Input
@@ -56,6 +61,7 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
           className="blue addIng"
           waves="green"
           icon="add"
+          type="submit"
           onClick={function() {
             added();
           }}
@@ -64,11 +70,10 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
     </tr>
   );
 
+
+  //Är absolut inte nöjd med denna biten.
   function added() {
-    window.Materialize.toast(
-      'Ingredienst tillagd',
-      1000
-    );
+    window.Materialize.toast('Ingredienst tillagd', 2000);
     console.log(ingredList);
     ingredList.push({ ingredient, measure, quantity, amount });
     let i = 0;
@@ -78,12 +83,28 @@ const IngredientListItem = ({ ingredient, measure, quantity, amount }) => {
         <CollectionItem key={ingredient.ingredient._id + 'listan'}>
           {i + '. '}
           {ingredient.ingredient.Namn}{' '}
-          <Badge>
+    
             {ingredient.quantity} {ingredient.measure}
+         <Badge>
+          <Button
+          className="waves-effect waves-light btn-small red"
+          value="Ta bort"
+            onClick={e => {
+              e.preventDefault();
+              var index = ingredList.indexOf(ingredient.ingredient.Namn);
+
+              ingredList.splice(index, 1);
+              window.Materialize.toast('Ingredienst borttagen, tro mig!', 2000);
+              console.log(index);
+            }}
+          >Ta bort</Button>
           </Badge>
         </CollectionItem>
       );
     });
+    function deleted(e){
+
+    }
     ReactDOM.render(
       <Collection>{ingredsAdded}</Collection>,
       document.getElementById('added')
